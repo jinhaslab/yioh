@@ -183,6 +183,17 @@ main {
   min-height: 60vh;
 }
 
+/* Responsive Images */
+main img,
+.post-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 20px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
 /* Post Styles */
 .post-header {
   border-bottom: 3px solid #0066cc;
@@ -502,6 +513,14 @@ a, button, .category-btn, .nav-list > li > a {
 
   .post-content {
     font-size: 1em;
+  }
+
+  /* Image adjustments for mobile */
+  main img,
+  .post-content img {
+    margin: 15px 0;
+    max-width: 100%;
+    border-radius: 6px;
   }
 
   /* Table adjustments */
