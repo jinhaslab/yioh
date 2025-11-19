@@ -19,7 +19,57 @@ layout: default
       </span>
       {% endif %}
     </div>
+
+    {% if page.keywords %}
+    <div class="post-keywords">
+      {% for keyword in page.keywords %}
+      <span class="keyword-tag">{{ keyword }}</span>
+      {% endfor %}
+    </div>
+    {% endif %}
   </header>
+
+  {% if page.event %}
+  <div class="event-info">
+    <h3>일시 및 장소</h3>
+    <div class="event-details">
+      <div class="event-item">
+        <span class="event-label">📅 날짜</span>
+        <span class="event-value">{{ page.event.date }}</span>
+      </div>
+      {% if page.event.time %}
+      <div class="event-item">
+        <span class="event-label">🕒 시간</span>
+        <span class="event-value">{{ page.event.time }}</span>
+      </div>
+      {% endif %}
+      {% if page.event.location %}
+      <div class="event-item">
+        <span class="event-label">📍 장소</span>
+        <span class="event-value">{{ page.event.location }}</span>
+      </div>
+      {% endif %}
+      {% if page.event.online %}
+      <div class="event-item">
+        <span class="event-label">💻 온라인</span>
+        <span class="event-value">온라인/하이브리드 진행</span>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if page.presenter %}
+  <div class="presenter-info">
+    <h3>발표자</h3>
+    <div class="presenter-details">
+      <span class="presenter-name">{{ page.presenter.name }}</span>
+      {% if page.presenter.affiliation %}
+      <span class="presenter-affiliation">{{ page.presenter.affiliation }}</span>
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
 
   <div class="post-content">
     {{ content }}
@@ -27,20 +77,70 @@ layout: default
 
   {% if page.downloads %}
   <div class="post-downloads">
-    <h3>자료 다운로드</h3>
-    <ul>
-      {% for download in page.downloads %}
-      <li>
-        <a href="{{ download.url | relative_url }}" download>
-          {{ download.name }}
-        </a>
-        {% if download.size %}
-        <span class="file-size">({{ download.size }})</span>
-        {% endif %}
-      </li>
-      {% endfor %}
-    </ul>
+    <h3>📎 자료 다운로드</h3>
+
+    {% assign presentations = page.downloads | where: "type", "presentation" %}
+    {% assign others = page.downloads | where_exp: "item", "item.type != 'presentation'" %}
+
+    {% if presentations.size > 0 %}
+    <div class="download-section">
+      <h4>발표 자료</h4>
+      <ul>
+        {% for download in presentations %}
+        <li class="download-item">
+          <div class="download-info">
+            <a href="{{ download.url | relative_url }}" class="download-link" target="_blank">
+              📄 {{ download.name }}
+            </a>
+            {% if download.size %}
+            <span class="file-size">{{ download.size }}</span>
+            {% endif %}
+          </div>
+          {% if download.url contains '.pdf' %}
+          <button class="preview-btn" onclick="togglePreview('{{ download.url | relative_url }}', this)">
+            미리보기 ▼
+          </button>
+          <div class="pdf-preview" style="display: none;">
+            <iframe src="{{ download.url | relative_url }}" width="100%" height="600px"></iframe>
+          </div>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    {% if others.size > 0 %}
+    <div class="download-section">
+      <h4>참고 자료</h4>
+      <ul>
+        {% for download in others %}
+        <li class="download-item">
+          <a href="{{ download.url | relative_url }}" class="download-link" download>
+            📎 {{ download.name }}
+          </a>
+          {% if download.size %}
+          <span class="file-size">{{ download.size }}</span>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
   </div>
+
+  <script>
+  function togglePreview(url, button) {
+    const previewDiv = button.nextElementSibling;
+    if (previewDiv.style.display === 'none') {
+      previewDiv.style.display = 'block';
+      button.textContent = '미리보기 ▲';
+    } else {
+      previewDiv.style.display = 'none';
+      button.textContent = '미리보기 ▼';
+    }
+  }
+  </script>
   {% endif %}
 
   {% if page.references %}
