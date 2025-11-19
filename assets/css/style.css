@@ -317,6 +317,26 @@ main img,
   margin-bottom: 40px;
 }
 
+/* Lists in post content */
+.post-content ul,
+.post-content ol {
+  margin-left: 20px;
+  padding-left: 20px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.post-content li {
+  margin-bottom: 8px;
+}
+
+.post-content h3 + ul,
+.post-content h3 + ol,
+.post-content h4 + ul,
+.post-content h4 + ol {
+  margin-top: 10px;
+}
+
 /* Abstract Styling */
 .post-content h2:first-of-type {
   color: #0066cc;
