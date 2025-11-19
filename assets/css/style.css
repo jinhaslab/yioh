@@ -10,6 +10,9 @@ body {
   line-height: 1.6;
   color: #333;
   background-color: #f5f5f5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: rgba(0, 102, 204, 0.2);
 }
 
 .container {
@@ -29,6 +32,7 @@ body {
 .header-container {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -51,7 +55,8 @@ body {
 /* Search Box */
 .search-box {
   position: relative;
-  min-width: 300px;
+  width: 300px;
+  max-width: 100%;
 }
 
 #search-input {
@@ -114,7 +119,7 @@ body {
   margin: 0 auto;
   list-style: none;
   display: flex;
-  padding: 0;
+  padding: 0 20px;
 }
 
 .nav-list > li {
@@ -374,6 +379,7 @@ main {
 .footer-container {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 20px;
 }
 
 .footer-content {
@@ -408,11 +414,31 @@ main {
   color: #95a5a6;
 }
 
+/* Touch-friendly targets */
+a, button, .category-btn, .nav-list > li > a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Table Responsive Wrapper */
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 20px 0;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
+  /* Header adjustments */
   .header-container {
     flex-direction: column;
     align-items: flex-start;
+    padding: 0 15px;
+  }
+
+  .site-title a {
+    font-size: 1.5em;
   }
 
   .search-box {
@@ -420,8 +446,21 @@ main {
     margin-top: 20px;
   }
 
+  /* Navigation adjustments */
   .nav-list {
     flex-direction: column;
+    padding: 0;
+    width: 100%;
+  }
+
+  .nav-list > li {
+    width: 100%;
+    border-bottom: 1px solid #eee;
+  }
+
+  .nav-list > li > a {
+    padding: 15px 20px;
+    width: 100%;
   }
 
   .dropdown-menu {
@@ -429,16 +468,28 @@ main {
     display: none;
     box-shadow: none;
     background-color: #f8f9fa;
+    width: 100%;
   }
 
   .nav-dropdown:hover .dropdown-menu {
     display: block;
   }
 
-  main {
-    padding: 20px;
+  .dropdown-menu li a {
+    padding: 12px 30px;
   }
 
+  /* Main content adjustments */
+  .container {
+    padding: 15px;
+  }
+
+  main {
+    padding: 20px 15px;
+    margin: 20px auto;
+  }
+
+  /* Post adjustments */
   .post-title {
     font-size: 1.6em;
   }
@@ -447,5 +498,78 @@ main {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
+  }
+
+  .post-content {
+    font-size: 1em;
+  }
+
+  /* Table adjustments */
+  .schedule-table {
+    font-size: 0.9em;
+  }
+
+  .schedule-table th,
+  .schedule-table td {
+    padding: 10px 8px;
+  }
+
+  /* Category filter adjustments */
+  .category-filter {
+    gap: 10px;
+  }
+
+  .category-btn {
+    padding: 10px 15px;
+    font-size: 0.9em;
+  }
+
+  /* Post list adjustments */
+  .post-list-item {
+    padding: 20px 0;
+  }
+
+  .post-list-item:hover {
+    transform: none;
+    padding-left: 10px;
+    margin-left: -10px;
+  }
+
+  /* Footer adjustments */
+  .footer-container {
+    padding: 0 15px;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  .site-title a {
+    font-size: 1.3em;
+  }
+
+  .site-subtitle {
+    font-size: 0.85em;
+  }
+
+  .post-title {
+    font-size: 1.4em;
+  }
+
+  .post-content {
+    font-size: 0.95em;
+  }
+
+  .schedule-table {
+    font-size: 0.85em;
+  }
+
+  .schedule-table th,
+  .schedule-table td {
+    padding: 8px 5px;
   }
 }
