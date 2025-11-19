@@ -45,7 +45,7 @@ downloads:
 
 ## Digital Social Twin의 개념
 
-![Digital Social Twin 개념도](/assets/images/social_twin.png)
+![Digital Social Twin 개념도]({{ '/assets/images/social_twin.png' | relative_url }})
 
 ### Social Twin이란?
 
