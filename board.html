@@ -1,0 +1,64 @@
+---
+layout: default
+title: 전체 게시판
+---
+
+<h1>전체 게시판</h1>
+
+<div class="category-filter">
+  <button class="category-btn active" data-category="all">전체</button>
+  <button class="category-btn" data-category="symposium">심포지엄</button>
+  <button class="category-btn" data-category="seminar">세미나</button>
+  <button class="category-btn" data-category="education">교육</button>
+</div>
+
+<div class="post-list">
+{% for post in site.posts %}
+  <div class="post-list-item" data-category="{{ post.category }}">
+    <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+    <div class="post-meta">
+      <time datetime="{{ post.date | date_to_xmlschema }}">
+        {{ post.date | date: "%Y년 %m월 %d일" }}
+      </time>
+      {% if post.category %}
+      <span class="post-category">
+        {% if post.category == 'symposium' %}심포지엄
+        {% elsif post.category == 'seminar' %}세미나
+        {% elsif post.category == 'education' %}교육
+        {% endif %}
+      </span>
+      {% endif %}
+    </div>
+    {% if post.excerpt %}
+    <p class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
+    {% endif %}
+  </div>
+{% endfor %}
+</div>
+
+<script>
+// Category filtering
+document.addEventListener('DOMContentLoaded', function() {
+  const categoryBtns = document.querySelectorAll('.category-btn');
+  const postItems = document.querySelectorAll('.post-list-item');
+
+  categoryBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      const category = this.getAttribute('data-category');
+
+      // Update active button
+      categoryBtns.forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+
+      // Filter posts
+      postItems.forEach(post => {
+        if (category === 'all' || post.getAttribute('data-category') === category) {
+          post.style.display = 'block';
+        } else {
+          post.style.display = 'none';
+        }
+      });
+    });
+  });
+});
+</script>

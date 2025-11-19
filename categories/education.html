@@ -1,0 +1,27 @@
+---
+layout: default
+title: 교육
+---
+
+<h1>교육</h1>
+<p>연세대학교 산업보건연구소에서 주최한 교육 프로그램 자료입니다.</p>
+
+<div class="post-list">
+{% assign education_posts = site.posts | where: "category", "education" %}
+{% for post in education_posts %}
+  <div class="post-list-item">
+    <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+    <div class="post-meta">
+      <time>{{ post.date | date: "%Y년 %m월 %d일" }}</time>
+      <span class="post-category">교육</span>
+    </div>
+    {% if post.excerpt %}
+    <p class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
+    {% endif %}
+  </div>
+{% endfor %}
+</div>
+
+{% if education_posts.size == 0 %}
+<p style="text-align: center; color: #666; padding: 40px;">아직 등록된 교육 프로그램이 없습니다.</p>
+{% endif %}

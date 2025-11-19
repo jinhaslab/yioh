@@ -1,0 +1,27 @@
+---
+layout: default
+title: 심포지엄
+---
+
+<h1>심포지엄</h1>
+<p>연세대학교 산업보건연구소에서 주최한 심포지엄 자료입니다.</p>
+
+<div class="post-list">
+{% assign symposium_posts = site.posts | where: "category", "symposium" %}
+{% for post in symposium_posts %}
+  <div class="post-list-item">
+    <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+    <div class="post-meta">
+      <time>{{ post.date | date: "%Y년 %m월 %d일" }}</time>
+      <span class="post-category">심포지엄</span>
+    </div>
+    {% if post.excerpt %}
+    <p class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
+    {% endif %}
+  </div>
+{% endfor %}
+</div>
+
+{% if symposium_posts.size == 0 %}
+<p style="text-align: center; color: #666; padding: 40px;">아직 등록된 심포지엄이 없습니다.</p>
+{% endif %}

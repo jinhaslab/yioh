@@ -1,0 +1,107 @@
+---
+layout: default
+title: 일정
+---
+
+<h1>예정된 일정</h1>
+<p>연세대학교 산업보건연구소의 예정된 세미나, 심포지엄, 교육 프로그램 일정입니다.</p>
+
+<h2>2025년 예정 일정</h2>
+
+<table class="schedule-table">
+  <thead>
+    <tr>
+      <th>날짜</th>
+      <th>유형</th>
+      <th>제목</th>
+      <th>상태</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% assign future_posts = site.posts | where_exp: "post", "post.date >= site.time" | sort: "date" %}
+    {% if future_posts.size > 0 %}
+      {% for post in future_posts %}
+      <tr>
+        <td>{{ post.date | date: "%Y년 %m월 %d일" }}</td>
+        <td>
+          {% if post.category == 'symposium' %}심포지엄
+          {% elsif post.category == 'seminar' %}세미나
+          {% elsif post.category == 'education' %}교육
+          {% endif %}
+        </td>
+        <td><a href="{{ post.url | relative_url }}">{{ post.title }}</a></td>
+        <td><span class="badge badge-upcoming">예정</span></td>
+      </tr>
+      {% endfor %}
+    {% else %}
+      <tr>
+        <td colspan="4" style="text-align: center; color: #666;">현재 예정된 일정이 없습니다.</td>
+      </tr>
+    {% endif %}
+  </tbody>
+</table>
+
+<h2>지난 일정</h2>
+
+<table class="schedule-table">
+  <thead>
+    <tr>
+      <th>날짜</th>
+      <th>유형</th>
+      <th>제목</th>
+      <th>자료</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% assign past_posts = site.posts | where_exp: "post", "post.date < site.time" | sort: "date" | reverse %}
+    {% if past_posts.size > 0 %}
+      {% for post in past_posts limit: 10 %}
+      <tr>
+        <td>{{ post.date | date: "%Y년 %m월 %d일" }}</td>
+        <td>
+          {% if post.category == 'symposium' %}심포지엄
+          {% elsif post.category == 'seminar' %}세미나
+          {% elsif post.category == 'education' %}교육
+          {% endif %}
+        </td>
+        <td><a href="{{ post.url | relative_url }}">{{ post.title }}</a></td>
+        <td>
+          {% if post.downloads %}
+          <span class="badge badge-available">자료 있음</span>
+          {% else %}
+          <span class="badge badge-none">-</span>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    {% else %}
+      <tr>
+        <td colspan="4" style="text-align: center; color: #666;">지난 일정이 없습니다.</td>
+      </tr>
+    {% endif %}
+  </tbody>
+</table>
+
+<style>
+.badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.85em;
+  font-weight: 500;
+}
+
+.badge-upcoming {
+  background-color: #0066cc;
+  color: white;
+}
+
+.badge-available {
+  background-color: #28a745;
+  color: white;
+}
+
+.badge-none {
+  background-color: #e0e0e0;
+  color: #666;
+}
+</style>

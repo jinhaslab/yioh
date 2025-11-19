@@ -1,0 +1,48 @@
+# Site settings
+title: 연세대학교 산업보건연구소
+title_en: Yonsei Institute of Occupational Health
+email: jinhaslab@gmail.com
+description: >-
+  연세대학교 산업보건연구소의 세미나, 심포지엄, 교육 자료를 공유하는 공간입니다.
+baseurl: "/yioh"
+url: "https://jinhaslab.github.io"
+github_username: jinhaslab
+
+# Build settings
+markdown: kramdown
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Collections
+collections:
+  posts:
+    output: true
+    permalink: /:categories/:year/:month/:day/:title/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      author: "YIOH"
+
+# Categories
+categories:
+  - symposium
+  - seminar
+  - education
+
+# Timezone
+timezone: Asia/Seoul
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/
+  - envyioh/
