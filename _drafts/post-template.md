@@ -16,6 +16,7 @@ event:
   time: "HH:MM - HH:MM"
   location: "장소명 (건물명, 층, 호실)"
   online: false  # true이면 온라인/하이브리드 표시
+  organizer: "주최 기관명"  # 선택 사항
 
 # 발표 자료 및 참고 자료
 downloads:
