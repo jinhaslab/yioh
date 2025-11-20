@@ -13,7 +13,7 @@ presenter:
 event:
   date: "2025년 11월 21일 (금)"
   time: "11:00 - 13:00"
-  location: "연세대학교 의과대학"
+  location: "연세대학교 보건대학원 양재모홀 (의과대학 종합관 3층)"
   online: false
   organizer: "연세대학교 산업보건연구소"
 
