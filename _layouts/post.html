@@ -55,6 +55,12 @@ layout: default
         <span class="event-value">온라인/하이브리드 진행</span>
       </div>
       {% endif %}
+      {% if page.event.organizer %}
+      <div class="event-item">
+        <span class="event-label">🏢 주최</span>
+        <span class="event-value">{{ page.event.organizer }}</span>
+      </div>
+      {% endif %}
     </div>
   </div>
   {% endif %}

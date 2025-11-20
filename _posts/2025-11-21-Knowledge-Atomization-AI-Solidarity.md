@@ -27,10 +27,15 @@ downloads:
     url: "/assets/downloads/DataEnv1.pdf"
     size: "800KB"
     type: "presentation"
-  - name: "발표자료- 데이터 기반 직업건강영향 연구 시작 역학조사 사례짐 DB.pdf"
+  - name: "발표자료- 데이터 기반 직업건강영향 연구 시작 역학조사 사례집 DB.pdf"
     url: "/assets/downloads/DataOccp1.pdf"
     size: "500KB"
     type: "presentation"
+  - name: "발표자료- 웨어러블·IoT 기반 환경건강영향 연구.pdf"
+    url: "/assets/downloads/데이터 기반 건강 영향 평가 initiative.pdf"
+    size: "500KB"
+    type: "presentation"
+    
 
 # 키워드
 keywords:
