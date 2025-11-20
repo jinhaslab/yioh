@@ -39,6 +39,9 @@ categories:
 # Timezone
 timezone: Asia/Seoul
 
+# Allow future posts
+future: true
+
 # Exclude from processing
 exclude:
   - Gemfile
