@@ -167,7 +167,7 @@ main {
     background: linear-gradient(to bottom right, #ffffff, #e6f0ff); /* 부드러운 배경 */
     box-shadow: inset 0 -5px 10px rgba(0, 0, 0, 0.05);
     overflow: hidden;
-    padding-top: 0; /* default.html에서 패딩을 main으로 이동 */
+    padding-top: 0;
 }
 
 /* 스크롤 아이템 레이어 */
@@ -210,6 +210,8 @@ main {
 .post-list {
     display: grid;
     gap: 30px;
+    padding-top: 0; /* 상단 여백 제거 (컨테이너에서 조정) */
+    padding-bottom: 0; /* 하단 여백 제거 */
 }
 .post-list-item-card {
     background: white;
@@ -238,7 +240,7 @@ main {
     border-top: 1px solid #eee;
 }
 
-/* 반응형 그리드 */
+/* 반응형 그리드 (카드 정렬 문제 해결) */
 @media (min-width: 768px) {
      .post-list {
         grid-template-columns: repeat(2, minmax(0, 1fr));
