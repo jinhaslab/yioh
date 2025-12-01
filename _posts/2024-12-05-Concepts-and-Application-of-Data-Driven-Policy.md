@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "데이터 기반 산업보건 정책"
-date: 2025-12-05 14:00:00 +0900
+date: 2024-12-05 14:00:00 +0900
 category: symposium
 
 # 발표자 정보
