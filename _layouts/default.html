@@ -1,109 +1,22 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ page.title }} | {{ site.title }}</title>
-    <!-- CSS 링크: Jekyll의 상대 경로를 사용하여 404 오류 방지 -->
-    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
-    {% seo %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }} | {{ site.title }}</title>
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  {% seo %}
 </head>
-<body class="min-h-screen flex flex-col">
+<body>
+  {% include header.html %}
+  {% include navigation.html %}
 
-    {% include header.html %}
-    {% include navigation.html %}
+  <main class="container">
+    {{ content }}
+  </main>
 
-    <!-- .container 클래스를 사용하여 중앙 정렬 및 최대 너비 유지 -->
-    <main class="container">
-        <!-- 메인 페이지일 경우, Hero 섹션 아래에 콘텐츠가 바로 이어지도록 패딩을 0으로 설정 -->
-        <div style="{% if page.url == '/' %} padding-top: 0; padding-bottom: 40px; {% else %} padding-top: 40px; padding-bottom: 40px; {% endif %}">
-            {{ content }}
-        </div>
-    </main>
+  {% include footer.html %}
 
-    {% include footer.html %}
-
-    <!-- JavaScript: 모바일 메뉴, 드롭다운, 스크롤 애니메이션 기능 -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // === 1. 네비게이션 및 드롭다운 토글 기능 ===
-            const menuButton = document.getElementById('menu-button');
-            const navigation = document.getElementById('main-navigation');
-            const categoryTrigger = document.getElementById('category-dropdown-trigger');
-            
-            if (menuButton) {
-                // 모바일 메뉴 토글
-                menuButton.addEventListener('click', () => {
-                    navigation.classList.toggle('active');
-                });
-            }
-
-            if (categoryTrigger) {
-                // 모바일 드롭다운 토글
-                categoryTrigger.addEventListener('click', (e) => {
-                    if (window.innerWidth < 768) {
-                        e.preventDefault();
-                        const dropdown = categoryTrigger.closest('.nav-dropdown').querySelector('.dropdown-menu');
-                        if (dropdown) dropdown.classList.toggle('active');
-                    }
-                });
-            }
-            
-            // === 2. 스크롤 애니메이션 기능 (index.html에서만 실행) ===
-            const heroSection = document.getElementById('hero-section');
-            if (heroSection) {
-                const yonseiMark = document.getElementById('item-yonsei-mark');
-                const yonseiImg = yonseiMark.querySelector('img');
-
-                const items = {
-                    helmet: document.getElementById('item-helmet'),
-                    report: document.getElementById('item-report'),
-                    shoe: document.getElementById('item-shoe'),
-                };
-
-                const SCROLL_DURATION = 800; // 애니메이션 지속 시간 (스크롤 픽셀)
-                const OFFSET = 200; // 이미지 이동 거리 (픽셀)
-
-                const updateScrollAnimation = () => {
-                    const rect = heroSection.getBoundingClientRect();
-                    const scrollY = -rect.top; 
-                    const progress = Math.min(1, Math.max(0, scrollY / SCROLL_DURATION));
-
-                    // 2-1. 연세 마크 페이드인 (0% ~ 50% 진행)
-                    const markProg = Math.min(1, Math.max(0, progress / 0.5));
-                    const finalOpacity = markProg * 0.4; 
-                    
-                    // CSS opacity와 JS opacity를 분리하여 사용 (안정성 강화)
-                    yonseiMark.style.opacity = finalOpacity; 
-                    yonseiImg.style.opacity = finalOpacity > 0.01 ? 1 : 0; 
-                    yonseiMark.style.transform = `scale(${1.5 - (markProg * 0.2)})`; 
-
-                    // 2-2. 개별 이미지 아이템 애니메이션
-                    
-                    const helmetProg = Math.min(1, Math.max(0, (progress - 0.1) / 0.6));
-                    const helmetY = OFFSET - (helmetProg * OFFSET); 
-                    const helmetX = OFFSET - (helmetProg * OFFSET); 
-                    items.helmet.style.transform = `translate(${helmetX}px, ${helmetY}px) rotate(${helmetY / 4}deg) scale(1.0)`;
-                    items.helmet.style.opacity = helmetProg;
-
-                    const reportProg = Math.min(1, Math.max(0, (progress - 0.2) / 0.6));
-                    const reportY = OFFSET - (reportProg * OFFSET); 
-                    const reportX = OFFSET - (reportProg * OFFSET);
-                    items.report.style.transform = `translate(-${reportX}px, ${reportY}px) rotate(${reportY / 4}deg) scale(1.0)`;
-                    items.report.style.opacity = reportProg;
-                    
-                    const shoeProg = Math.min(1, Math.max(0, progress / 0.6));
-                    const shoeY = OFFSET - (shoeProg * OFFSET); 
-                    items.shoe.style.transform = `translateY(${shoeY}px) rotate(${shoeY / 4}deg) scale(1.0)`;
-                    items.shoe.style.opacity = shoeProg;
-                };
-
-                updateScrollAnimation();
-                window.addEventListener('scroll', updateScrollAnimation);
-            }
-        });
-    </script>
-    <!-- Jekyll 환경에서는 search.js 파일이 이 스크립트 블록과 함께 작동하거나 독립적으로 포함됩니다. -->
-    <script src="{{ '/assets/js/search.js' | relative_url }}"></script>
+  <script src="{{ '/assets/js/search.js' | relative_url }}"></script>
 </body>
 </html>
