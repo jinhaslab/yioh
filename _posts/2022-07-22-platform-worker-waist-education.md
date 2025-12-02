@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "플랫폼 노동자 대상 나의건강기록 앱 설치 교육"
+title: "플랫폼 노동자 대상 허리둘레 측정 교육"
 date: 2022-07-22 18:00:00 +0900
 category: education
 

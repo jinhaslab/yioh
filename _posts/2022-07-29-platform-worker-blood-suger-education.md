@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "플랫폼 노동자 대상 콜레스테롤 측정 교육"
-date: 2022-07-15 18:00:00 +0900
+title: "플랫폼 노동자 대상 혈당 측정 방법 교육"
+date: 2022-07-29 18:00:00 +0900
 category: education
 
 # 발표자/강사 정보
@@ -12,16 +12,16 @@ presenter:
 
 # 일시 및 장소
 event:
-  date: "2022년 07월 15일 (금)"
+  date: "2022년 07월 29일 (금)"
   time: "18:00 - 19:00"
   location: "서울특별시 영등포구 국제금융로 6길 26 한국노총 9층"
   online: false
 
 # 교육 자료
 downloads:
-  - name: "발표자료 - 콜레스테롤 측정 교육자료.pdf"
-    url: "/assets/downloads/콜레스테롤 측정 교육자료.pdf"
-    size: "1.7MB"
+  - name: "발표자료 - 혈당측정방법 교육자료.pdf"
+    url: "/assets/downloads/혈당측정방법 교육자료.pdf"
+    size: "0.6MB"
     type: "presentation"
 
 

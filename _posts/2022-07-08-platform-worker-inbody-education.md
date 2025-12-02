@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "플랫폼 노동자 대상 나의건강기록 앱 설치 교육"
+title: "플랫폼 노동자 대상 인바디 측정 교육"
 date: 2022-07-08 18:00:00 +0900
 category: education
 
