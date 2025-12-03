@@ -2,165 +2,134 @@
 layout: default
 ---
 
-<article class="post">
-  <header class="post-header">
-    <h1 class="post-title">{{ page.title }}</h1>
-    <div class="post-meta">
-      <time datetime="{{ page.date | date_to_xmlschema }}">
-        {{ page.date | date: "%Y년 %m월 %d일" }}
-      </time>
-      {% if page.category %}
-      <span class="post-category">
-        {% if page.category == 'symposium' %}심포지엄
-        {% elsif page.category == 'seminar' %}세미나
-        {% elsif page.category == 'education' %}교육
-        {% else %}{{ page.category }}
-        {% endif %}
-      </span>
+<article class="post-view-container">
+  
+  <header class="post-view-header">
+    <div class="pv-meta">
+      {% if page.category == 'symposium' %}
+        <span class="pv-badge b-symp">Symposium</span>
+      {% elsif page.category == 'seminar' %}
+        <span class="pv-badge b-semi">Seminar</span>
+      {% elsif page.category == 'education' %}
+        <span class="pv-badge b-edu">Education</span>
+      {% elsif page.category == 'forum' %}
+        <span class="pv-badge b-forum">Forum</span>
       {% endif %}
+      <span class="pv-date">{{ page.date | date: "%Y년 %m월 %d일" }}</span>
     </div>
-
+    <h1 class="pv-title">{{ page.title }}</h1>
+    
     {% if page.keywords %}
-    <div class="post-keywords">
+    <div class="pv-keywords">
       {% for keyword in page.keywords %}
-      <span class="keyword-tag">{{ keyword }}</span>
+      <span class="hash-tag">#{{ keyword }}</span>
       {% endfor %}
     </div>
     {% endif %}
   </header>
 
-  {% if page.event %}
-  <div class="event-info">
-    <h3>일시 및 장소</h3>
-    <div class="event-details">
-      <div class="event-item">
-        <span class="event-label">📅 날짜</span>
-        <span class="event-value">{{ page.event.date }}</span>
+  <div class="post-view-grid">
+    
+    <div class="post-view-content">
+      <div class="content-body">
+        {{ content }}
       </div>
-      {% if page.event.time %}
-      <div class="event-item">
-        <span class="event-label">🕒 시간</span>
-        <span class="event-value">{{ page.event.time }}</span>
-      </div>
-      {% endif %}
-      {% if page.event.location %}
-      <div class="event-item">
-        <span class="event-label">📍 장소</span>
-        <span class="event-value">{{ page.event.location }}</span>
-      </div>
-      {% endif %}
-      {% if page.event.online %}
-      <div class="event-item">
-        <span class="event-label">💻 온라인</span>
-        <span class="event-value">온라인/하이브리드 진행</span>
-      </div>
-      {% endif %}
-      {% if page.event.organizer %}
-      <div class="event-item">
-        <span class="event-label">🏢 주최</span>
-        <span class="event-value">{{ page.event.organizer }}</span>
+      
+      {% if page.references %}
+      <div class="ref-section">
+        <h3>🔗 참고 링크</h3>
+        <ul>
+          {% for ref in page.references %}
+          <li><a href="{{ ref.url }}" target="_blank">{{ ref.name }}</a></li>
+          {% endfor %}
+        </ul>
       </div>
       {% endif %}
     </div>
-  </div>
-  {% endif %}
 
-  {% if page.presenter %}
-  <div class="presenter-info">
-    <h3>발표자</h3>
-    <div class="presenter-details">
-      <span class="presenter-name">{{ page.presenter.name }}</span>
-      {% if page.presenter.affiliation %}
-      <span class="presenter-affiliation">{{ page.presenter.affiliation }}</span>
+    <aside class="post-view-sidebar">
+      
+      {% if page.presenter %}
+      <div class="info-card">
+        <div class="ic-header">👤 발표자</div>
+        <div class="ic-body">
+          <p class="ic-main-text">{{ page.presenter.name }}</p>
+          {% if page.presenter.affiliation %}
+          <p class="ic-sub-text">{{ page.presenter.affiliation }}</p>
+          {% endif %}
+          {% if page.presenter.email %}
+          <a href="mailto:{{ page.presenter.email }}" class="ic-link">{{ page.presenter.email }}</a>
+          {% endif %}
+        </div>
+      </div>
       {% endif %}
-    </div>
-  </div>
-  {% endif %}
 
-  <div class="post-content">
-    {{ content }}
-  </div>
-
-  {% if page.downloads %}
-  <div class="post-downloads">
-    <h3>📎 자료 다운로드</h3>
-
-    {% assign presentations = page.downloads | where: "type", "presentation" %}
-    {% assign others = page.downloads | where_exp: "item", "item.type != 'presentation'" %}
-
-    {% if presentations.size > 0 %}
-    <div class="download-section">
-      <h4>발표 자료</h4>
-      <ul>
-        {% for download in presentations %}
-        <li class="download-item">
-          <div class="download-info">
-            <a href="{{ download.url | relative_url }}" class="download-link" target="_blank">
-              📄 {{ download.name }}
-            </a>
-            {% if download.size %}
-            <span class="file-size">{{ download.size }}</span>
-            {% endif %}
+      {% if page.event %}
+      <div class="info-card">
+        <div class="ic-header">📅 행사 정보</div>
+        <div class="ic-body">
+          <div class="ic-row">
+            <span class="label">일시</span>
+            <span class="value">{{ page.event.date }}<br>{{ page.event.time }}</span>
           </div>
-          {% if download.url contains '.pdf' %}
-          <button class="preview-btn" onclick="togglePreview('{{ download.url | relative_url }}', this)">
-            미리보기 ▼
-          </button>
-          <div class="pdf-preview" style="display: none;">
-            <iframe src="{{ download.url | relative_url }}" width="100%" height="600px"></iframe>
+          {% if page.event.location %}
+          <div class="ic-row">
+            <span class="label">장소</span>
+            <span class="value">{{ page.event.location }}</span>
           </div>
           {% endif %}
-        </li>
-        {% endfor %}
-      </ul>
-    </div>
-    {% endif %}
-
-    {% if others.size > 0 %}
-    <div class="download-section">
-      <h4>참고 자료</h4>
-      <ul>
-        {% for download in others %}
-        <li class="download-item">
-          <a href="{{ download.url | relative_url }}" class="download-link" download>
-            📎 {{ download.name }}
-          </a>
-          {% if download.size %}
-          <span class="file-size">{{ download.size }}</span>
+          {% if page.event.organizer %}
+          <div class="ic-row">
+            <span class="label">주최</span>
+            <span class="value">{{ page.event.organizer }}</span>
+          </div>
           {% endif %}
-        </li>
-        {% endfor %}
-      </ul>
-    </div>
-    {% endif %}
+        </div>
+      </div>
+      {% endif %}
+
+      {% if page.downloads %}
+      <div class="info-card download-card">
+        <div class="ic-header">💾 자료 다운로드</div>
+        <div class="ic-body">
+          <ul class="download-list">
+            {% for download in page.downloads %}
+            <li>
+              <a href="{{ download.url | relative_url }}" class="dl-btn" target="_blank" download>
+                <span class="dl-name">{{ download.name }}</span>
+                {% if download.size %}<span class="dl-size">{{ download.size }}</span>{% endif %}
+              </a>
+              {% if download.url contains '.pdf' %}
+              <button class="preview-toggle" onclick="togglePreview('{{ download.url | relative_url }}', this)">
+                미리보기 ▼
+              </button>
+              <div class="pdf-preview-box" style="display: none;">
+                <iframe src="{{ download.url | relative_url }}"></iframe>
+              </div>
+              {% endif %}
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      {% endif %}
+
+    </aside>
   </div>
 
-  <script>
-  function togglePreview(url, button) {
-    const previewDiv = button.nextElementSibling;
-    if (previewDiv.style.display === 'none') {
-      previewDiv.style.display = 'block';
-      button.textContent = '미리보기 ▲';
-    } else {
-      previewDiv.style.display = 'none';
-      button.textContent = '미리보기 ▼';
-    }
-  }
-  </script>
-  {% endif %}
-
-  {% if page.references %}
-  <div class="post-references">
-    <h3>참고 링크</h3>
-    <ul>
-      {% for ref in page.references %}
-      <li>
-        <a href="{{ ref.url }}" target="_blank" rel="noopener">
-          {{ ref.name }}
-        </a>
-      </li>
-      {% endfor %}
-    </ul>
-  </div>
-  {% endif %}
 </article>
+
+<script>
+function togglePreview(url, button) {
+  const previewDiv = button.nextElementSibling;
+  if (previewDiv.style.display === 'none') {
+    previewDiv.style.display = 'block';
+    button.textContent = '미리보기 ▲';
+    button.classList.add('active');
+  } else {
+    previewDiv.style.display = 'none';
+    button.textContent = '미리보기 ▼';
+    button.classList.remove('active');
+  }
+}
+</script>
