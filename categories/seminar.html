@@ -3,25 +3,51 @@ layout: default
 title: 세미나
 ---
 
-<h1>세미나</h1>
-<p>연세대학교 산업보건연구소에서 주최한 세미나 자료입니다.</p>
+<div class="section-header">
+  <h1 style="color: var(--c-seminar); font-size: 2.5rem; font-weight: 800; margin-bottom: 10px;">세미나</h1>
+  <p style="color: #666; font-size: 1.1rem;">연세대학교 산업보건연구소의 정기 세미나 및 초청 강연 자료입니다.</p>
+</div>
 
-<div class="post-list">
-{% assign seminar_posts = site.posts | where: "category", "seminar" %}
-{% for post in seminar_posts %}
-  <div class="post-list-item">
-    <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-    <div class="post-meta">
-      <time>{{ post.date | date: "%Y년 %m월 %d일" }}</time>
-      <span class="post-category">세미나</span>
+<div class="board-grid">
+{% assign posts = site.posts | where: "category", "seminar" %}
+{% for post in posts %}
+  <article class="post-card">
+    <div class="card-top">
+      <span class="card-badge badge-seminar">Seminar</span>
+      <span class="card-date">{{ post.date | date: "%Y.%m.%d" }}</span>
     </div>
-    {% if post.excerpt %}
-    <p class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
-    {% endif %}
-  </div>
+    <div class="card-content">
+      <h3 class="card-title">
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+      </h3>
+      <div class="card-info-list">
+        {% if post.presenter %}
+        <div class="info-item">
+          <span class="info-icon">👤</span><span>{{ post.presenter.name }}</span>
+        </div>
+        {% endif %}
+      </div>
+      <div class="card-desc">
+        {% if post.abstract %}
+          {{ post.abstract | strip_html | truncate: 80 }}
+        {% else %}
+          {{ post.content | strip_html | truncate: 80 }}
+        {% endif %}
+      </div>
+    </div>
+    <div class="card-footer">
+      <span class="download-status {% if post.downloads.size > 0 %}active{% else %}none{% endif %}">
+        {% if post.downloads.size > 0 %}💾 자료 {{ post.downloads.size }}건{% else %}📄 자료 없음{% endif %}
+      </span>
+      <a href="{{ post.url | relative_url }}" class="btn-detail">상세보기 <span class="arrow">→</span></a>
+    </div>
+  </article>
 {% endfor %}
 </div>
 
-{% if seminar_posts.size == 0 %}
-<p style="text-align: center; color: #666; padding: 40px;">아직 등록된 세미나가 없습니다.</p>
+{% if posts.size == 0 %}
+<div style="text-align: center; padding: 80px 20px; color: #888;">
+  <div style="font-size: 3rem; margin-bottom: 10px; opacity: 0.5;">🌿</div>
+  <p>아직 등록된 세미나 자료가 없습니다.</p>
+</div>
 {% endif %}
