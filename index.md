@@ -6,7 +6,7 @@ title: 홈
 <section class="home-hero">
   <div class="hero-content reveal">
     <div class="logo-wrapper">
-      <img src="{{ '/assets/images/연세대마크.png' | relative_url }}" alt="연세대학교 로고" class="hero-logo">
+      <img src="{{ '/assets/images/연세대마크.jpg' | relative_url }}" alt="연세대학교 로고" class="hero-logo">
     </div>
     <h1 class="hero-title">연세대학교 <br><span>산업보건연구소</span></h1>
     <p class="hero-subtitle">Yonsei Institute of Occupational Health</p>
