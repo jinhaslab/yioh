@@ -12,7 +12,7 @@ title: 홈
     <p class="hero-subtitle">Yonsei Institute of Occupational Health</p>
     <p class="hero-desc">
       연구와 실천을 통해 건강한 노동 환경을 만들어갑니다.<br>
-      심포지엄, 세미나, 교육 자료를 한곳에서 만나보세요.
+      심포지엄, 세미나, 교육, 논문 자료를 한곳에서 만나보세요.
     </p>
   </div>
 </section>
@@ -51,6 +51,13 @@ title: 홈
       <p>주요 현안에 대한 심층 토론과 논의</p>
       <span class="btn-text">바로가기 →</span>
     </a>
+
+    <a href="{{ '/categories/paper.html' | relative_url }}" class="cat-card paper">
+      <div class="cat-icon">📄</div>
+      <h3>논문</h3>
+      <p>연구소에서 발행한 학술 논문 및 보고서</p>
+      <span class="btn-text">바로가기 →</span>
+    </a>
   </div>
 </section>
 
@@ -80,6 +87,8 @@ title: 홈
             <span class="mini-badge b-edu">교육</span>
           {% elsif post.category == 'forum' %}
             <span class="mini-badge b-forum">포럼</span>
+          {% elsif post.category == 'paper' %}
+            <span class="mini-badge b-paper">논문</span>
           {% endif %}
         </div>
         <h3 class="item-title">{{ post.title }}</h3>

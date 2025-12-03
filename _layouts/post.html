@@ -14,7 +14,8 @@ layout: default
         <span class="pv-badge b-edu">Education</span>
       {% elsif page.category == 'forum' %}
         <span class="pv-badge b-forum">Forum</span>
-      {% endif %}
+      {% elsif page.category == 'paper' %}
+        <span class="pv-badge b-paper">Paper</span> {% endif %}
       <span class="pv-date">{{ page.date | date: "%Y년 %m월 %d일" }}</span>
     </div>
     <h1 class="pv-title">{{ page.title }}</h1>
@@ -29,7 +30,6 @@ layout: default
   </header>
 
   <div class="post-view-grid">
-    
     <div class="post-view-content">
       <div class="content-body">
         {{ content }}
@@ -48,10 +48,9 @@ layout: default
     </div>
 
     <aside class="post-view-sidebar">
-      
       {% if page.presenter %}
       <div class="info-card">
-        <div class="ic-header">👤 발표자</div>
+        <div class="ic-header">👤 발표자 / 저자</div>
         <div class="ic-body">
           <p class="ic-main-text">{{ page.presenter.name }}</p>
           {% if page.presenter.affiliation %}
@@ -66,7 +65,7 @@ layout: default
 
       {% if page.event %}
       <div class="info-card">
-        <div class="ic-header">📅 행사 정보</div>
+        <div class="ic-header">📅 정보</div>
         <div class="ic-body">
           <div class="ic-row">
             <span class="label">일시</span>
@@ -113,10 +112,8 @@ layout: default
         </div>
       </div>
       {% endif %}
-
     </aside>
   </div>
-
 </article>
 
 <script>

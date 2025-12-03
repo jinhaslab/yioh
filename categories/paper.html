@@ -1,0 +1,53 @@
+---
+layout: default
+title: 논문
+---
+
+<div class="section-header">
+  <h1 style="color: var(--c-paper); font-size: 2.5rem; font-weight: 800; margin-bottom: 10px;">논문</h1>
+  <p style="color: #666; font-size: 1.1rem;">연세대학교 산업보건연구소에서 발행한 주요 학술 논문 및 보고서입니다.</p>
+</div>
+
+<div class="board-grid">
+{% assign posts = site.posts | where: "category", "paper" %}
+{% for post in posts %}
+  <article class="post-card">
+    <div class="card-top">
+      <span class="card-badge badge-paper">Paper</span>
+      <span class="card-date">{{ post.date | date: "%Y.%m.%d" }}</span>
+    </div>
+    <div class="card-content">
+      <h3 class="card-title">
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+      </h3>
+      <div class="card-info-list">
+        {% if post.presenter %}
+        <div class="info-item">
+          <span class="info-icon">👤</span><span>{{ post.presenter.name }}</span>
+        </div>
+        {% endif %}
+      </div>
+      <div class="card-desc">
+        {% if post.abstract %}
+          {{ post.abstract | strip_html | truncate: 80 }}
+        {% else %}
+          {{ post.content | strip_html | truncate: 80 }}
+        {% endif %}
+      </div>
+    </div>
+    <div class="card-footer">
+      <span class="download-status {% if post.downloads.size > 0 %}active{% else %}none{% endif %}">
+        {% if post.downloads.size > 0 %}💾 자료 {{ post.downloads.size }}건{% else %}📄 자료 없음{% endif %}
+      </span>
+      <a href="{{ post.url | relative_url }}" class="btn-detail">상세보기 <span class="arrow">→</span></a>
+    </div>
+  </article>
+{% endfor %}
+</div>
+
+{% if posts.size == 0 %}
+<div style="text-align: center; padding: 80px 20px; color: #888;">
+  <div style="font-size: 3rem; margin-bottom: 10px; opacity: 0.5;">📄</div>
+  <p>아직 등록된 논문 자료가 없습니다.</p>
+</div>
+{% endif %}

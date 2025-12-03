@@ -16,7 +16,8 @@ permalink: /board.html
       <option value="symposium">🔹 심포지엄</option>
       <option value="seminar">🔸 세미나</option>
       <option value="education">📙 교육</option>
-      <option value="forum">🚩 포럼</option> </select>
+      <option value="forum">🚩 포럼</option>
+      <option value="paper">📄 논문</option> </select>
     
     <select id="year-filter">
       <option value="all">📅 전체 기간</option>
@@ -42,7 +43,9 @@ permalink: /board.html
         {% elsif post.category == 'education' %}
           <span class="card-badge badge-education">Education</span>
         {% elsif post.category == 'forum' %}
-          <span class="card-badge badge-forum">Forum</span> {% endif %}
+          <span class="card-badge badge-forum">Forum</span>
+        {% elsif post.category == 'paper' %}
+          <span class="card-badge badge-paper">Paper</span> {% endif %}
       </div>
       <span class="card-date">{{ post.date | date: "%Y.%m.%d" }}</span>
     </div>
