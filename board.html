@@ -1,64 +1,161 @@
 ---
 layout: default
 title: 전체 게시판
+permalink: /board.html
 ---
 
-<h1>전체 게시판</h1>
-
-<div class="category-filter">
-  <button class="category-btn active" data-category="all">전체</button>
-  <button class="category-btn" data-category="symposium">심포지엄</button>
-  <button class="category-btn" data-category="seminar">세미나</button>
-  <button class="category-btn" data-category="education">교육</button>
+<div class="board-header-section">
+  <h1 class="board-title">지식 아카이브</h1>
+  <p class="board-desc">연세대학교 산업보건연구소의 모든 연구 성과와 교육 자료를 한눈에 확인하세요.</p>
+  
+  <div class="filter-bar">
+    <input type="text" id="board-search" placeholder="검색어를 입력하세요 (제목, 발표자)...">
+    
+    <select id="category-filter">
+      <option value="all">📂 모든 카테고리</option>
+      <option value="symposium">🔹 심포지엄</option>
+      <option value="seminar">🔸 세미나</option>
+      <option value="education">📙 교육</option>
+    </select>
+    
+    <select id="year-filter">
+      <option value="all">📅 전체 기간</option>
+      </select>
+  </div>
 </div>
 
-<div class="post-list">
-{% for post in site.posts %}
-  <div class="post-list-item" data-category="{{ post.category }}">
-    <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-    <div class="post-meta">
-      <time datetime="{{ post.date | date_to_xmlschema }}">
-        {{ post.date | date: "%Y년 %m월 %d일" }}
-      </time>
-      {% if post.category %}
-      <span class="post-category">
-        {% if post.category == 'symposium' %}심포지엄
-        {% elsif post.category == 'seminar' %}세미나
-        {% elsif post.category == 'education' %}교육
+<div class="board-grid" id="post-grid">
+  {% for post in site.posts %}
+  <article class="post-card" 
+           data-title="{{ post.title | downcase }}" 
+           data-category="{{ post.category }}" 
+           data-year="{{ post.date | date: '%Y' }}"
+           data-presenter="{{ post.presenter.name | downcase }}"
+           data-keywords="{{ post.keywords | join: ' ' | downcase }}">
+    
+    <div class="card-top">
+      <div class="badge-group">
+        {% if post.category == 'symposium' %}
+          <span class="card-badge badge-symposium">Symposium</span>
+        {% elsif post.category == 'seminar' %}
+          <span class="card-badge badge-seminar">Seminar</span>
+        {% elsif post.category == 'education' %}
+          <span class="card-badge badge-education">Education</span>
         {% endif %}
-      </span>
-      {% endif %}
+      </div>
+      <span class="card-date">{{ post.date | date: "%Y.%m.%d" }}</span>
     </div>
-    {% if post.excerpt %}
-    <p class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
-    {% endif %}
-  </div>
-{% endfor %}
+
+    <div class="card-content">
+      <h3 class="card-title">
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+      </h3>
+      
+      <div class="card-info-list">
+        {% if post.presenter %}
+        <div class="info-item">
+          <span class="info-icon">👤</span>
+          <span>{{ post.presenter.name }}</span>
+        </div>
+        {% endif %}
+        
+        {% if post.event %}
+        <div class="info-item">
+          <span class="info-icon">📍</span>
+          <span>{{ post.event.location | truncate: 15 }}</span>
+        </div>
+        {% endif %}
+      </div>
+
+      <p class="card-desc">
+        {% if post.abstract %}
+          {{ post.abstract | strip_html | truncate: 80 }}
+        {% else %}
+          {{ post.content | strip_html | truncate: 80 }}
+        {% endif %}
+      </p>
+    </div>
+
+    <div class="card-footer">
+      <div>
+        {% if post.downloads.size > 0 %}
+          <span class="download-status active">
+            💾 자료 {{ post.downloads.size }}건
+          </span>
+        {% else %}
+          <span class="download-status none">
+            📄 자료 없음
+          </span>
+        {% endif %}
+      </div>
+      <a href="{{ post.url | relative_url }}" class="btn-detail">
+        자세히 보기 <span class="arrow">→</span>
+      </a>
+    </div>
+  </article>
+  {% endfor %}
+</div>
+
+<div id="no-results" style="display: none; text-align: center; padding: 60px; color: #888;">
+  <div style="font-size: 3rem; margin-bottom: 10px;">🔍</div>
+  <p>검색 결과가 없습니다. 다른 검색어를 입력해보세요.</p>
 </div>
 
 <script>
-// Category filtering
 document.addEventListener('DOMContentLoaded', function() {
-  const categoryBtns = document.querySelectorAll('.category-btn');
-  const postItems = document.querySelectorAll('.post-list-item');
+  const searchInput = document.getElementById('board-search');
+  const categoryFilter = document.getElementById('category-filter');
+  const yearFilter = document.getElementById('year-filter');
+  const posts = document.querySelectorAll('.post-card');
+  const noResults = document.getElementById('no-results');
 
-  categoryBtns.forEach(btn => {
-    btn.addEventListener('click', function() {
-      const category = this.getAttribute('data-category');
-
-      // Update active button
-      categoryBtns.forEach(b => b.classList.remove('active'));
-      this.classList.add('active');
-
-      // Filter posts
-      postItems.forEach(post => {
-        if (category === 'all' || post.getAttribute('data-category') === category) {
-          post.style.display = 'block';
-        } else {
-          post.style.display = 'none';
-        }
-      });
-    });
+  // 1. 연도 필터 자동 생성
+  const years = new Set();
+  posts.forEach(post => years.add(post.dataset.year));
+  const sortedYears = Array.from(years).sort().reverse();
+  
+  sortedYears.forEach(year => {
+    const option = document.createElement('option');
+    option.value = year;
+    option.textContent = year + '년';
+    yearFilter.appendChild(option);
   });
+
+  // 2. 필터링 로직
+  function filterPosts() {
+    const searchTerm = searchInput.value.toLowerCase();
+    const categoryValue = categoryFilter.value;
+    const yearValue = yearFilter.value;
+    let visibleCount = 0;
+
+    posts.forEach(post => {
+      const title = post.dataset.title || '';
+      const presenter = post.dataset.presenter || '';
+      const keywords = post.dataset.keywords || '';
+      const category = post.dataset.category;
+      const year = post.dataset.year;
+
+      const matchesSearch = title.includes(searchTerm) || 
+                            presenter.includes(searchTerm) || 
+                            keywords.includes(searchTerm);
+      const matchesCategory = categoryValue === 'all' || category === categoryValue;
+      const matchesYear = yearValue === 'all' || year === yearValue;
+
+      if (matchesSearch && matchesCategory && matchesYear) {
+        post.style.display = 'flex'; // 카드는 flexbox
+        post.style.animation = 'fadeIn 0.5s ease'; // 애니메이션
+        visibleCount++;
+      } else {
+        post.style.display = 'none';
+      }
+    });
+
+    noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+  }
+
+  // 이벤트 리스너
+  searchInput.addEventListener('input', filterPosts);
+  categoryFilter.addEventListener('change', filterPosts);
+  yearFilter.addEventListener('change', filterPosts);
 });
 </script>
