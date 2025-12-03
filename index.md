@@ -102,11 +102,9 @@ title: 홈
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   const reveals = document.querySelectorAll('.reveal');
-
   const revealOnScroll = function() {
     const windowHeight = window.innerHeight;
     const elementVisible = 100;
-
     reveals.forEach((reveal) => {
       const elementTop = reveal.getBoundingClientRect().top;
       if (elementTop < windowHeight - elementVisible) {
@@ -114,9 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   };
-
   window.addEventListener('scroll', revealOnScroll);
-  // 초기 로드시 실행
   revealOnScroll();
 });
 </script>
