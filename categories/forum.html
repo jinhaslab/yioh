@@ -1,0 +1,27 @@
+---
+layout: default
+title: 포럼
+---
+
+<h1>포럼</h1>
+<p>연세대학교 산업보건연구소에서 주최한 포럼 자료입니다.</p>
+
+<div class="post-list">
+{% assign forum_posts = site.posts | where: "category", "forum" %}
+{% for post in forum_posts %}
+  <div class="post-list-item">
+    <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+    <div class="post-meta">
+      <time>{{ post.date | date: "%Y년 %m월 %d일" }}</time>
+      <span class="post-category">포럼</span>
+    </div>
+    {% if post.excerpt %}
+    <p class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
+    {% endif %}
+  </div>
+{% endfor %}
+</div>
+
+{% if forum_posts.size == 0 %}
+<p style="text-align: center; color: #666; padding: 40px;">아직 등록된 포럼 자료가 없습니다.</p>
+{% endif %}

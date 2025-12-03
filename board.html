@@ -16,11 +16,11 @@ permalink: /board.html
       <option value="symposium">🔹 심포지엄</option>
       <option value="seminar">🔸 세미나</option>
       <option value="education">📙 교육</option>
-    </select>
+      <option value="forum">🚩 포럼</option> </select>
     
     <select id="year-filter">
       <option value="all">📅 전체 기간</option>
-      </select>
+    </select>
   </div>
 </div>
 
@@ -41,7 +41,8 @@ permalink: /board.html
           <span class="card-badge badge-seminar">Seminar</span>
         {% elsif post.category == 'education' %}
           <span class="card-badge badge-education">Education</span>
-        {% endif %}
+        {% elsif post.category == 'forum' %}
+          <span class="card-badge badge-forum">Forum</span> {% endif %}
       </div>
       <span class="card-date">{{ post.date | date: "%Y.%m.%d" }}</span>
     </div>
@@ -54,15 +55,13 @@ permalink: /board.html
       <div class="card-info-list">
         {% if post.presenter %}
         <div class="info-item">
-          <span class="info-icon">👤</span>
-          <span>{{ post.presenter.name }}</span>
+          <span>👤 {{ post.presenter.name }}</span>
         </div>
         {% endif %}
         
         {% if post.event %}
         <div class="info-item">
-          <span class="info-icon">📍</span>
-          <span>{{ post.event.location | truncate: 15 }}</span>
+          <span>📍 {{ post.event.location | truncate: 15 }}</span>
         </div>
         {% endif %}
       </div>
@@ -89,7 +88,7 @@ permalink: /board.html
         {% endif %}
       </div>
       <a href="{{ post.url | relative_url }}" class="btn-detail">
-        자세히 보기 <span class="arrow">→</span>
+        자세히 보기 →
       </a>
     </div>
   </article>
@@ -97,8 +96,7 @@ permalink: /board.html
 </div>
 
 <div id="no-results" style="display: none; text-align: center; padding: 60px; color: #888;">
-  <div style="font-size: 3rem; margin-bottom: 10px;">🔍</div>
-  <p>검색 결과가 없습니다. 다른 검색어를 입력해보세요.</p>
+  <p>검색 결과가 없습니다.</p>
 </div>
 
 <script>
@@ -109,19 +107,15 @@ document.addEventListener('DOMContentLoaded', function() {
   const posts = document.querySelectorAll('.post-card');
   const noResults = document.getElementById('no-results');
 
-  // 1. 연도 필터 자동 생성
   const years = new Set();
   posts.forEach(post => years.add(post.dataset.year));
-  const sortedYears = Array.from(years).sort().reverse();
-  
-  sortedYears.forEach(year => {
+  Array.from(years).sort().reverse().forEach(year => {
     const option = document.createElement('option');
     option.value = year;
     option.textContent = year + '년';
     yearFilter.appendChild(option);
   });
 
-  // 2. 필터링 로직
   function filterPosts() {
     const searchTerm = searchInput.value.toLowerCase();
     const categoryValue = categoryFilter.value;
@@ -131,19 +125,15 @@ document.addEventListener('DOMContentLoaded', function() {
     posts.forEach(post => {
       const title = post.dataset.title || '';
       const presenter = post.dataset.presenter || '';
-      const keywords = post.dataset.keywords || '';
       const category = post.dataset.category;
       const year = post.dataset.year;
 
-      const matchesSearch = title.includes(searchTerm) || 
-                            presenter.includes(searchTerm) || 
-                            keywords.includes(searchTerm);
+      const matchesSearch = title.includes(searchTerm) || presenter.includes(searchTerm);
       const matchesCategory = categoryValue === 'all' || category === categoryValue;
       const matchesYear = yearValue === 'all' || year === yearValue;
 
       if (matchesSearch && matchesCategory && matchesYear) {
-        post.style.display = 'flex'; // 카드는 flexbox
-        post.style.animation = 'fadeIn 0.5s ease'; // 애니메이션
+        post.style.display = 'flex';
         visibleCount++;
       } else {
         post.style.display = 'none';
@@ -153,7 +143,6 @@ document.addEventListener('DOMContentLoaded', function() {
     noResults.style.display = visibleCount === 0 ? 'block' : 'none';
   }
 
-  // 이벤트 리스너
   searchInput.addEventListener('input', filterPosts);
   categoryFilter.addEventListener('change', filterPosts);
   yearFilter.addEventListener('change', filterPosts);
